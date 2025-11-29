@@ -1,0 +1,21 @@
+# Carpetas comunes para ignorar
+__pycache__/
+lib/
+env/
+venv/
+.venv/
+.idea/
+.vscode/
+.streamlit/
+
+# Archivos de Python
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Html generados automáticamente
+*.html

@@ -1,0 +1,16 @@
+id,nombre_1,nombre_2,apellido_1,apellido_2,sexo,fecha_nacimiento,ciudad_nacimiento,pais_nacimiento,fecha_muerte,ciudad_muerte,pais_muerte,padre_id,madre_id,hijo_id,generacion
+G2MW-T9V,Diego,Alejandro,Castañeda,Ossa,Hombre,1994-12-13,Medellín,Colombia,N/A,N/A,N/A,G2M4-N8Q,G2MH-H88,N/A,0
+G2M4-N8Q,Heriberto,de Jesús,Castañeda,Castañeda,Hombre,1962-02-21,Cañasgordas,Colombia,N/A,N/A,N/A,GNQR-XNN,G2MH-WFL,G2MW-T9V,1
+G2MH-H88,Nidia,del Socorro,Ossa,Mazo,Mujer,1963-11-13,San Andrés de Cuerquia,Colombia,N/A,N/A,N/A,L5TW-TZK,G2MH-KWP,G2MW-T9V,1
+GNQR-XNN,Juan,Bautista,Castañeda,Guzmán,Hombre,1931-04-29,Cañasgordas,Colombia,2020-12-12,Medellín,Colombia,G2MC-SRP,G2M4-BRT,G2M4-N8Q,2
+G2MH-WFL,María,Nicolasa,Castañeda,Bedoya,Mujer,1939-10-19,Cañasgordas,Colombia,N/A,N/A,N/A,GFFT-WSG,GFFK-76Z,G2M4-N8Q,2
+L5TW-TZK,Eduardo,de Jesús,Ossa,Posada,Hombre,1936-04-21,San Andrés de Cuerquia,Colombia,2016-01-01,Medellín,Colombia,G2MH-3RM,G2MH-B1H,G2MH-H88,2
+G2MH-KWP,María,Adela,Mazo,Arango,Mujer,1942-12-05,San Andrés de Cuerquia,Colombia,N/A,N/A,N/A,G2MD-RJT,G2MD-F7K,G2MH-H88,2
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
