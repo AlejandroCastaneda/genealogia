@@ -149,7 +149,16 @@ def draw_family_tree_interactive(df):
 
     # Nodos con color simple
     for _, row in df.iterrows():
-        nombre = f"{row['nombre_1']} {row['nombre_2']} {row['apellido_1']} {row['apellido_2']}"
+        nombre = " ".join(
+            str(x) for x in [
+                row.get("nombre_1", ""),
+                row.get("nombre_2", ""),
+                row.get("apellido_1", ""),
+                row.get("apellido_2", "")
+            ]
+            if pd.notna(x)
+        )
+
         color = "#8ab4f8" if row['sexo'] == "Hombre" else "#ff9ecb"
 
         try:
