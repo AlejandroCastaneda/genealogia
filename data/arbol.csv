@@ -1,16 +1,32 @@
-id,nombre_1,nombre_2,apellido_1,apellido_2,sexo,fecha_nacimiento,ciudad_nacimiento,pais_nacimiento,fecha_muerte,ciudad_muerte,pais_muerte,padre_id,madre_id,hijo_id,generacion
-G2MW-T9V,Diego,Alejandro,Castañeda,Ossa,Hombre,1994-12-13,Medellín,Colombia,N/A,N/A,N/A,G2M4-N8Q,G2MH-H88,N/A,0
-G2M4-N8Q,Heriberto,de Jesús,Castañeda,Castañeda,Hombre,1962-02-21,Cañasgordas,Colombia,N/A,N/A,N/A,GNQR-XNN,G2MH-WFL,G2MW-T9V,1
-G2MH-H88,Nidia,del Socorro,Ossa,Mazo,Mujer,1963-11-13,San Andrés de Cuerquia,Colombia,N/A,N/A,N/A,L5TW-TZK,G2MH-KWP,G2MW-T9V,1
-GNQR-XNN,Juan,Bautista,Castañeda,Guzmán,Hombre,1931-04-29,Cañasgordas,Colombia,2020-12-12,Medellín,Colombia,G2MC-SRP,G2M4-BRT,G2M4-N8Q,2
-G2MH-WFL,María,Nicolasa,Castañeda,Bedoya,Mujer,1939-10-19,Cañasgordas,Colombia,N/A,N/A,N/A,GFFT-WSG,GFFK-76Z,G2M4-N8Q,2
-L5TW-TZK,Eduardo,de Jesús,Ossa,Posada,Hombre,1936-04-21,San Andrés de Cuerquia,Colombia,2016-01-01,Medellín,Colombia,G2MH-3RM,G2MH-B1H,G2MH-H88,2
-G2MH-KWP,María,Adela,Mazo,Arango,Mujer,1942-12-05,San Andrés de Cuerquia,Colombia,N/A,N/A,N/A,G2MD-RJT,G2MD-F7K,G2MH-H88,2
-G2MC-SRP,Guillermo,Antonio,Castañeda,Castañeda,Hombre,1891-02-07,Cañasgordas,Colombia,1971-02-25,Cañasgordas,Colombia,G2MC-XQF,G2MH-51W,GNQR-XNN,3
-G2M4-BRT,María,Isabel,Guzmán,Patiño,Mujer,1897-01-01,,,1969-11-28,Cañasgordas,Colombia,G2MZ-NGS,G2MC-J33,GNQR-XNN,3
-GFFT-WSG,José,Isaac,Castañeda,Crespo,Hombre,1898-01-01,,,,,,GFFY-D8B,GFFY-8Z5,G2MH-WFL,3
-GFFK-76Z,María,Elena,Bedoya,Solís,Mujer,1898-08-17,Cañasgordas,Colombia,,,,G2ZD-V5V,GFFT-C6C,G2MH-WFL,3
-G2MH-3RM,Domingo,Antonio,Ossa,Areiza,Hombre,1910-01-01,,,1980-11-21,San Andrés de Cuerquia,Colombia,G2M8-F6Q,G2MD-Q6Y,L5TW-TZK,3
-G2MH-B1H,Sara,de Jesús,Posada,Arroyave,Mujer,1916-01-01,,,1981-12-26,San Andrés de Cuerquia,Colombia,G2MD-JZQ,G2MD-MXP,L5TW-TZK,3
-G2MD-RJT,Teófilo,,Mazo,Mazo,Hombre,1904-11-04,San Andrés de Cuerquia,Colombia,1991-12-13,San José de la Montaña,Colombia,G2MF-D3X,G2MF-R2T,G2MH-KWP,3
-G2MD-F7K,Celia,Rosa,Arango,Espinoza,Mujer,,,,,San José de la Montaña,Colombia,G2MJ-VHW,G2MV-M4F,G2MH-KWP,3
+id,nombre_1,nombre_2,apellido_1,apellido_2,sexo,fecha_nacimiento,ciudad_nacimiento,pais_nacimiento,fecha_muerte,ciudad_muerte,pais_muerte,hijo_id,generacion
+G2MW-T9V,Diego,Alejandro,Castañeda,Ossa,Hombre,1994-12-13,Medellín,Colombia,No aplica,No aplica,No aplica,No aplica,0
+G2M4-N8Q,Heriberto,de Jesús,Castañeda,Castañeda,Hombre,1962-02-21,Cañasgordas,Colombia,No aplica,No aplica,No aplica,G2MW-T9V,1
+G2MH-H88,Nidia,del Socorro,Ossa,Mazo,Mujer,1963-11-13,San Andrés de Cuerquia,Colombia,No aplica,No aplica,No aplica,G2MW-T9V,1
+GNQR-XNN,Juan,Bautista,Castañeda,Guzmán,Hombre,1931-04-29,Cañasgordas,Colombia,2020-12-12,Medellín,Colombia,G2M4-N8Q,2
+G2MH-WFL,María,Nicolasa,Castañeda,Bedoya,Mujer,1939-10-19,Cañasgordas,Colombia,No aplica,No aplica,No aplica,G2M4-N8Q,2
+L5TW-TZK,Eduardo,de Jesús,Ossa,Posada,Hombre,1936-04-21,San Andrés de Cuerquia,Colombia,2016-01-01,Medellín,Colombia,G2MH-H88,2
+G2MH-KWP,María,Adela,Mazo,Arango,Mujer,1942-12-05,San Andrés de Cuerquia,Colombia,No aplica,No aplica,No aplica,G2MH-H88,2
+G2MC-SRP,Guillermo,Antonio,Castañeda,Castañeda,Hombre,1891-02-07,Cañasgordas,Colombia,1971-02-25,Cañasgordas,Colombia,GNQR-XNN,3
+G2M4-BRT,María,Isabel,Guzmán,Patiño,Mujer,1897-01-01,,,1969-11-28,Cañasgordas,Colombia,GNQR-XNN,3
+GFFT-WSG,José,Isaac,Castañeda,Crespo,Hombre,1898-01-01,,,,,,G2MH-WFL,3
+GFFK-76Z,María,Elena,Bedoya,Solís,Mujer,1898-08-17,Cañasgordas,Colombia,,,,G2MH-WFL,3
+G2MH-3RM,Domingo,Antonio,Ossa,Areiza,Hombre,1910-01-01,,,1980-11-21,San Andrés de Cuerquia,Colombia,L5TW-TZK,3
+G2MH-B1H,Sara,de Jesús,Posada,Arroyave,Mujer,1916-01-01,,,1981-12-26,San Andrés de Cuerquia,Colombia,L5TW-TZK,3
+G2MD-RJT,Teófilo,,Mazo,Mazo,Hombre,1904-11-04,San Andrés de Cuerquia,Colombia,1991-12-13,San José de la Montaña,Colombia,G2MH-KWP,3
+G2MD-F7K,Celia,Rosa,Arango,Espinoza,Mujer,,,,,San José de la Montaña,Colombia,G2MH-KWP,3
+G2MC-XQF,Miguel,María,Castañeda,Rivera,Hombre,1860-09-28,Sopetrán,Colombia,1925-11-28,Cañasgordas,Colombia,G2MC-SRP,4
+G2MH-51W,Juana,María,Castañeda,Rodríguez,Mujer,,,,,,,G2MC-SRP,4
+G2MZ-NGS,José,Concepción,Guzmán,Goez,Hombre,1862-05-01,,,1916-06-01,Cañasgordas,Colombia,G2M4-BRT,4
+G2MC-J33,María,Josefa,Patiño,Hernandez,Mujer,1854-11-01,Liborina,Colombia,1914-12-29,Cañasgordas,Colombia,G2M4-BRT,4
+GFFY-D8B,Higinio,Gil,Castañeda,Orrego,Hombre,1851-08-31,Sopetrán,Colombia,1935-07-28,Cañasgordas,Colombia,GFFT-WSG,4
+GFFY-8Z5,María,Lucinda,Crespo,,Mujer,1872-01-01,,,1947-09-03,Cañasgordas,Colombia,GFFT-WSG,4
+G2ZD-V5V,Saturnino,,Bedoya,Giraldo,Hombre,1860-12-01,Yarumal,Colombia,1951-11-28,Cañasgordas,Colombia,GFFK-76Z,4
+GFFT-C6C,Ana,Rosa,Solís,Prisco,Mujer,1859-01-01,,,1954-09-12,Cañasgordas,Colombia,GFFK-76Z,4
+G2M8-F6Q,Jesús,María,Ossa,García,Hombre,1864-01-01,,,1932-08-01,San Andrés de Cuerquia,Colombia,G2MH-3RM,4
+G2MD-Q6Y,María,Cecilia,Areiza,Sepúlveda,Mujer,1879-01-01,,,1949-07-12,San Andrés de Cuerquia,Colombia,G2MH-3RM,4
+G2MD-JZQ,Jesús,María,Posada,Sepúlveda,Hombre,,,,,,,G2MH-B1H,4
+G2MD-MXP,María,Raquel,Arroyave,Roldán,Mujer,1901-01-03,Santa Rosa de Osos,Colombia,1936-03-21,San Andrés de Cuerquia,Colombia,G2MH-B1H,4
+G2MF-D3X,Domingo,Antonio,Mazo,Mazo,Hombre,1856-01-01,,,1943-12-28,San Andrés de Cuerquia,Colombia,G2MD-RJT,4
+G2MF-R2T,Adelaida,,Mazo,Mazo,Mujer,,,,,,,G2MD-RJT,4
+G2MJ-VHW,Luís,María,Arango,Naranjo,Hombre,1867-01-01,,,1937-11-24,San Andrés de Cuerquia,Colombia,G2MD-F7K,4
+G2MV-M4F,María,de las Mercedes,Espinoza,Areiza,Mujer,1884-09-09,San Andrés de Cuerquia,Colombia,,,,G2MD-F7K,4

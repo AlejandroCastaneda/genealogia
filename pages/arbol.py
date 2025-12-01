@@ -15,3 +15,4 @@ df = utils.load_data()
 
 utils.draw_family_tree_interactive(df)
 utils.generation_sizes(df)
+utils.missing_data_table(df)

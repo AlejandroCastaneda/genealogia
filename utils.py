@@ -66,11 +66,6 @@ def generate_menu():
 
 def load_data():
     df = pd.read_csv("data/arbol.csv")
-
-    # Convertir fechas a datetime cuando posible
-    df["fecha_nacimiento"] = pd.to_datetime(df["fecha_nacimiento"], errors="coerce")
-    df["fecha_muerte"] = pd.to_datetime(df["fecha_muerte"], errors="coerce")
-
     return df
 
 def birth_cities(df):
@@ -100,15 +95,31 @@ def most_common_surnames(df):
     st.bar_chart(conteo, sort=False, color="#e8f5e9")
 
 def ages_at_death(df):
-    st.subheader("Edades al morir")
-
+    # Parseo de fechas con formato más robusto
     df["fecha_nacimiento"] = pd.to_datetime(df["fecha_nacimiento"], errors="coerce")
-    df["fecha_muerte"] = pd.to_datetime(df["fecha_muerte"], errors="coerce")
-    df["edad_al_morir"] = (df["fecha_muerte"] - df["fecha_nacimiento"]).dt.days // 365
 
+    # Convertir "No aplica" a NaT
+    df["fecha_muerte"] = df["fecha_muerte"].replace("No aplica", pd.NA)
+    df["fecha_muerte"] = pd.to_datetime(df["fecha_muerte"], errors="coerce")
+
+    # Calcular edad solo si fecha_muerte existe
+    df["edad_al_morir"] = (
+        df["fecha_muerte"] - df["fecha_nacimiento"]
+    ).dt.days // 365
+
+    # Personas que sí tienen edad de muerte válida
     df_valid = df[df["edad_al_morir"].notna()]
 
-    st.bar_chart(df_valid["edad_al_morir"].value_counts().sort_index(), color="#e8f5e9")
+    # Cálculo del promedio
+    promedio = df_valid["edad_al_morir"].mean()
+
+    st.subheader(f"Edades al morir - Promedio {promedio:.0f}")
+
+    # Gráfico
+    st.bar_chart(
+        df_valid["edad_al_morir"].value_counts().sort_index(),
+        color="#e8f5e9"
+    )
 
 def draw_family_tree_interactive(df):
     st.title("Árbol genealógico")
@@ -176,16 +187,9 @@ def draw_family_tree_interactive(df):
 
 
     # Conexiones
-    ids_existentes = set(df["id"])
-
     for _, row in df.iterrows():
-        child = row["id"]
-
-        if pd.notna(row["padre_id"]) and row["padre_id"] in ids_existentes:
-            net.add_edge(row["padre_id"], child)
-
-        if pd.notna(row["madre_id"]) and row["madre_id"] in ids_existentes:
-            net.add_edge(row["madre_id"], child)
+        if row["hijo_id"] != 'No aplica':
+            net.add_edge(row["id"], row["hijo_id"]) 
 
     html = net.generate_html()
     st.components.v1.html(html, height=800, scrolling=True)
@@ -214,3 +218,29 @@ def generation_sizes(df):
             st.write(f"Generación {int(row['generación'])} → Faltan {int(row['faltantes'])} personas")
         else:
             st.write(f"Generación {int(row['generación'])} → Completa ({int(row['personas_reales'])} personas)")
+
+def missing_data_table(df):
+    st.subheader("Personas con datos faltantes")
+
+    # Columnas que quieres revisar
+    columnas_revisar = [
+        "apellido_1", "apellido_2",
+        "fecha_nacimiento", "pais_nacimiento",
+        "fecha_muerte", "pais_muerte"
+    ]
+
+    # Copia para evitar warnings
+    df2 = df.copy()
+
+    # Convertir strings vacíos a NaN
+    df2.replace("", pd.NA, inplace=True)
+
+    # Filtrar filas donde haya al menos un dato vacío
+    mask_nan = df2[columnas_revisar].isna().any(axis=1)
+    faltantes = df2[mask_nan].sort_values(by="generacion")
+
+    st.write(f"Total: **{len(faltantes)} personas** con al menos un dato vacío")
+
+    st.dataframe(faltantes)
+
+    return faltantes
