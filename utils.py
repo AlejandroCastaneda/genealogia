@@ -197,27 +197,57 @@ def draw_family_tree_interactive(df):
 def generation_sizes(df):
     st.subheader("Tamaño de cada generación")
 
-    # Contar cuántas personas hay por generación
+    # Asegurar que fecha_nacimiento es datetime
+    df["fecha_nacimiento"] = pd.to_datetime(df["fecha_nacimiento"], errors="coerce")
+
+    # Extraer año
+    df["anio_nacimiento"] = df["fecha_nacimiento"].dt.year
+
+    # Conteo por generación
     conteo = df["generacion"].value_counts().sort_index()
 
-    # Calcular el esperado: 2^n
+    # Esperado 2^n
     esperado = {gen: 2**gen for gen in conteo.index}
 
-    # Unir todo en un DataFrame
+    # Promedio de año por generación
+    promedio_anio = (
+        df.groupby("generacion")["anio_nacimiento"]
+        .mean()
+        .round(0)
+    )
+
+    # Construir resumen
     resumen = pd.DataFrame({
-        "generación": conteo.index,
+        "generacion": conteo.index,
         "personas_reales": conteo.values,
         "personas_esperadas": [esperado[g] for g in conteo.index],
+        "anio_promedio": [promedio_anio.get(g) for g in conteo.index]
     })
 
     resumen["faltantes"] = resumen["personas_esperadas"] - resumen["personas_reales"]
 
-    # Mostrar resumen en texto
+    # Mostrar resultados
     for _, row in resumen.iterrows():
-        if row["faltantes"] > 0:
-            st.write(f"Generación {int(row['generación'])} → Faltan {int(row['faltantes'])} personas")
+        gen = int(row["generacion"])
+        reales = int(row["personas_reales"])
+        esperadas = int(row["personas_esperadas"])
+        faltan = int(row["faltantes"])
+        anio = row["anio_promedio"]
+
+        if pd.isna(anio):
+            anio_txt = "sin datos"
         else:
-            st.write(f"Generación {int(row['generación'])} → Completa ({int(row['personas_reales'])} personas)")
+            anio_txt = f"~{int(anio)}"
+
+        if faltan > 0:
+            st.write(
+                f"Generación {gen} → {reales}/{esperadas} personas | "
+                f"Faltan {faltan} | Año promedio: {anio_txt}"
+            )
+        else:
+            st.write(
+                f"Generación {gen} → Completa ({reales}) | Año promedio: {anio_txt}"
+            )
 
 def missing_data_table(df):
     st.subheader("Personas con datos faltantes")
@@ -244,3 +274,7 @@ def missing_data_table(df):
     st.dataframe(faltantes)
 
     return faltantes
+
+#TODO: Meses de nacimiento y muerte
+#TODO: Filtrar personas por generación
+#TODO: Filtrar personas por ciudad de muerte

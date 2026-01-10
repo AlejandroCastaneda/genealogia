@@ -4,7 +4,7 @@ G2M4-N8Q,Heriberto,de Jesús,Castañeda,Castañeda,Hombre,1962-02-21,Cañasgorda
 G2MH-H88,Nidia,del Socorro,Ossa,Mazo,Mujer,1963-11-13,San Andrés de Cuerquia,Colombia,No aplica,No aplica,No aplica,G2MW-T9V,1
 GNQR-XNN,Juan,Bautista,Castañeda,Guzmán,Hombre,1931-04-29,Cañasgordas,Colombia,2020-12-12,Medellín,Colombia,G2M4-N8Q,2
 G2MH-WFL,María,Nicolasa,Castañeda,Bedoya,Mujer,1939-10-19,Cañasgordas,Colombia,No aplica,No aplica,No aplica,G2M4-N8Q,2
-L5TW-TZK,Eduardo,de Jesús,Ossa,Posada,Hombre,1936-04-21,San Andrés de Cuerquia,Colombia,2016-01-01,Medellín,Colombia,G2MH-H88,2
+L5TW-TZK,Eduardo,de Jesús,Ossa,Posada,Hombre,1936-04-21,San Andrés de Cuerquia,Colombia,2016-01-01,Santa Rosa de Osos,Colombia,G2MH-H88,2
 G2MH-KWP,María,Adela,Mazo,Arango,Mujer,1942-12-05,San Andrés de Cuerquia,Colombia,No aplica,No aplica,No aplica,G2MH-H88,2
 G2MC-SRP,Guillermo,Antonio,Castañeda,Castañeda,Hombre,1891-02-07,Cañasgordas,Colombia,1971-02-25,Cañasgordas,Colombia,GNQR-XNN,3
 G2M4-BRT,María,Isabel,Guzmán,Patiño,Mujer,1897-01-01,,,1969-11-28,Cañasgordas,Colombia,GNQR-XNN,3
@@ -30,3 +30,33 @@ G2MF-D3X,Domingo,Antonio,Mazo,Mazo,Hombre,1856-01-01,,,1943-12-28,San Andrés de
 G2MF-R2T,Adelaida,,Mazo,Mazo,Mujer,,,,,,,G2MD-RJT,4
 G2MJ-VHW,Luís,María,Arango,Naranjo,Hombre,1867-01-01,,,1937-11-24,San Andrés de Cuerquia,Colombia,G2MD-F7K,4
 G2MV-M4F,María,de las Mercedes,Espinoza,Areiza,Mujer,1884-09-09,San Andrés de Cuerquia,Colombia,,,,G2MD-F7K,4
+G2MK-MRK,Florentino,,Castañeda,Medina,Hombre,,,,,,,G2MC-XQF,5
+GXVV-8V3,María,Tomasa,Rivera,Betancur,Mujer,1840-09-25,Sopetrán,Colombia,1891-05-23,Cañasgordas,Colombia,G2MC-XQF,5
+G293-6TV,Juana,María de los Santos,Castañeda,Orrego,Mujer,,,,,,,G2MH-51W,5
+G2C2-57S,Vicente,,Guzmán,,Hombre,,,,,,,G2MZ-NGS,5
+G2C2-JVJ,María,Bartola,Goez,,Mujer,,,,,,,G2MZ-NGS,5
+GTSX-H8J,José,María,Patiño,Viana,Hombre,,,,,,,G2MC-J33,5
+GW1D-NN2,María,Josefa,Hernández,Escudero,Mujer,,,,,,,G2MC-J33,5
+G2VY-ZHN,Mateo,,Castañeda,,Hombre,1808-09-01,Sopetrán,Colombia,,,,GFFY-D8B,5
+G2VY-N5P,Clara,,Orrego,,Mujer,,,,,,,GFFY-D8B,5
+G2VY-SQG,Rosa,,Crespo,,Mujer,,,,,,,GFFY-8Z5,5
+G2Z6-RST,Luis,María,Bedoya,Moreno,Hombre,,,,,,,G2ZD-V5V,5
+G2Z6-LWB,María,Agustina,Giraldo,,Mujer,1840-01-01,,,1920-06-17,Cañasgordas,Colombia,G2ZD-V5V,5
+G28M-4CT,Tomás,,Solís,,Hombre,1816-01-01,,,1916-03-20,Cañasgordas,Colombia,GFFT-C6C,5
+G28M-H6X,María,del Rosario,Prisco,,Mujer,,,,,,,GFFT-C6C,5
+G29X-Z5M,José,María,Ossa,Tejada,Hombre,1841-11-30,San Andrés de Cuerquia,Colombia,,,,G2M8-F6Q,5
+G29X-N54,Juana,Bautista,García,,Mujer,,,,,,,G2M8-F6Q,5
+GKY5-G6B,José,María,Areiza,Muñoz,Hombre,1829-06-05,Santa Rosa de Osos,Colombia,,,,G2MD-Q6Y,5
+G239-XZN,María,José,Sepúlveda,Alzate,Mujer,,,,,,,G2MD-Q6Y,5
+G2WS-9CK,Víctor,José,Posada,Valencia,Hombre,1865-12-06,San Andrés de Cuerquia,Colombia,,,,G2MD-JZQ,5
+GX4C-M1P,María,Lugarda,Sepúlveda,Jaramillo,Mujer,1860-12-31,San Andrés de Cuerquia,Colombia,,,,G2MD-JZQ,5
+G286-5WW,José,Gabriel,Arroyave,Correa,Hombre,,,,,,,G2MD-MXP,5
+G286-PQQ,María,Teresa,Roldán,González,Mujer,,,,,,,G2MD-MXP,5
+G2F8-DQJ,Román,,Mazo,,Hombre,,,,,,,G2MF-D3X,5
+G2WQ-KCX,Rosalía,,Mazo,,Mujer,,,,,,,G2MF-D3X,5
+G2F8-1BY,Beraldo,,Mazo,,Hombre,,,,,,,G2MF-R2T,5
+LZBQ-TY3,María,del Sacramento,Mazo,Pineda,Mujer,,,,,,,G2MF-R2T,5
+G2W7-XZ1,Bernardino,,Arango,Cossio,Hombre,,,,,,,G2MJ-VHW,5
+G2W7-YBD,Buenaventura,,Naranjo,Posada,Mujer,,,,,,,G2MJ-VHW,5
+GK2R-4BF,José,María,Espinoza,Gutiérrez,Hombre,,,,1889-07-18,San Andrés de Cuerquia,Colombia,G2MV-M4F,5
+GK2R-7WD,María,Liberata,Areiza,,Mujer,,,,,,,G2MV-M4F,5
