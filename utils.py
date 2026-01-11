@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 from pyvis.network import Network
+import matplotlib.pyplot as plt
 
 def load_styles():
     hide_default_menu = """
@@ -48,7 +49,6 @@ def load_styles():
     st.markdown(hide_default_menu, unsafe_allow_html=True)
     st.markdown(page_bg, unsafe_allow_html=True)
 
-#Función para la barra lateral sidebar
 def generate_menu():
     with st.sidebar:
         logo = Image.open("media/FamilySearch.png") 
@@ -56,7 +56,8 @@ def generate_menu():
         st.header("Menú")
         #mostramos una lista personalizada de mis páginas
         st.page_link('app.py', label='Inicio', icon='📖')
-        st.page_link('pages/arbol.py', label='Árbol', icon='🌳')
+        st.page_link('pages/arbol.py', label='Árbol genealógico', icon='🌳')
+        st.page_link('pages/huella_genealogica.py', label='Huella genealógica', icon='🧬')
         st.markdown("---")
         st.markdown("### 🌐 Recursos externos")
         st.markdown(
@@ -72,27 +73,6 @@ def birth_cities(df):
     st.subheader("Ciudades de nacimiento")
     conteo_ciudades = df["ciudad_nacimiento"].value_counts()
     st.bar_chart(conteo_ciudades, sort=False, color="#e8f5e9")
-
-def birth_countries(df):
-    st.subheader("Países de nacimiento")
-    conteo_paises = df["pais_nacimiento"].value_counts()
-    st.bar_chart(conteo_paises, sort=False, color="#e8f5e9")
-
-def most_common_surnames(df):
-    st.subheader("Apellidos más repetidos")
-
-    # Tomamos los apellidos de las dos columnas
-    ap1 = df["apellido_1"].dropna().astype(str)
-    ap2 = df["apellido_2"].dropna().astype(str)
-
-    # Unimos todo en una sola serie
-    todos_apellidos = pd.concat([ap1, ap2])
-
-    # Contamos
-    conteo = todos_apellidos.value_counts()
-
-    # Gráfica
-    st.bar_chart(conteo, sort=False, color="#e8f5e9")
 
 def ages_at_death(df):
     # Parseo de fechas con formato más robusto
@@ -133,7 +113,7 @@ def draw_family_tree_interactive(df):
         font_color="black"
     )
 
-    # 🔥 Activar layout jerárquico para usar "level"
+    # Activar layout jerárquico para usar "level"
     net.set_options("""
     {
         "layout": {
@@ -241,7 +221,7 @@ def generation_sizes(df):
 
         if faltan > 0:
             st.write(
-                f"Generación {gen} → {reales}/{esperadas} personas | "
+                f"Generación {gen} → "
                 f"Faltan {faltan} | Año promedio: {anio_txt}"
             )
         else:
@@ -252,29 +232,132 @@ def generation_sizes(df):
 def missing_data_table(df):
     st.subheader("Personas con datos faltantes")
 
-    # Columnas que quieres revisar
     columnas_revisar = [
         "apellido_1", "apellido_2",
         "fecha_nacimiento", "pais_nacimiento",
         "fecha_muerte", "pais_muerte"
     ]
 
-    # Copia para evitar warnings
     df2 = df.copy()
-
-    # Convertir strings vacíos a NaN
     df2.replace("", pd.NA, inplace=True)
 
-    # Filtrar filas donde haya al menos un dato vacío
+    # Filas con al menos un dato faltante
     mask_nan = df2[columnas_revisar].isna().any(axis=1)
-    faltantes = df2[mask_nan].sort_values(by="generacion")
+    faltantes = df2.loc[mask_nan].copy()
+
+    # Selector de generación
+    generaciones = sorted(faltantes["generacion"].dropna().unique())
+    gen_seleccionada = st.selectbox(
+        "Filtrar por generación",
+        options=["Todas"] + generaciones
+    )
+
+    # Aplicar filtro
+    if gen_seleccionada != "Todas":
+        faltantes = faltantes[faltantes["generacion"] == gen_seleccionada]
+
+    faltantes["fecha_nacimiento"] = pd.to_datetime(
+    faltantes["fecha_nacimiento"], errors="coerce"
+    ).dt.strftime("%d/%m/%Y")
+
+    faltantes["fecha_muerte"] = pd.to_datetime(
+        faltantes["fecha_muerte"], errors="coerce"
+    ).dt.strftime("%d/%m/%Y")
+
+
+    # ---- Construir columnas amigables ----
+    faltantes["Nombre"] = (
+        faltantes["nombre_1"].fillna("") + " " +
+        faltantes["nombre_2"].fillna("") + " " +
+        faltantes["apellido_1"].fillna("") + " " +
+        faltantes["apellido_2"].fillna("")
+    ).str.replace(" +", " ", regex=True).str.strip()
+
+    faltantes["Lugar nacimiento"] = (
+        faltantes["ciudad_nacimiento"].fillna("") + ", " +
+        faltantes["pais_nacimiento"].fillna("")
+    ).str.replace(", $", "", regex=True)
+
+    faltantes["Lugar defunción"] = (
+        faltantes["ciudad_muerte"].fillna("") + ", " +
+        faltantes["pais_muerte"].fillna("")
+    ).str.replace(", $", "", regex=True)
+
+    # Seleccionar y renombrar columnas finales
+    salida = faltantes[[
+        "Nombre",
+        "fecha_nacimiento",
+        "Lugar nacimiento",
+        "fecha_muerte",
+        "Lugar defunción",
+        "id"
+    ]].rename(columns={
+        "fecha_nacimiento": "Fecha nacimiento",
+        "fecha_muerte": "Fecha defunción",
+        "id": "ID"
+    })
 
     st.write(f"Total: **{len(faltantes)} personas** con al menos un dato vacío")
+    st.dataframe(salida, width="stretch", hide_index=True)
 
-    st.dataframe(faltantes)
+def apellidos_distribution(df):
+    # Tomar ambos apellidos
+    ap1 = df["apellido_1"]
+    ap2 = df["apellido_2"]
 
-    return faltantes
+    # Unir en una sola serie
+    apellidos = pd.concat([ap1, ap2])
+
+    # Limpiar: quitar NaN, vacíos y normalizar
+    apellidos = (
+        apellidos
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .str.title()
+    )
+
+    total = len(apellidos)
+
+    conteo = apellidos.value_counts()
+
+    for apellido, cantidad in conteo.items():
+        porcentaje = (cantidad / total) * 100
+        st.write(f"**{porcentaje:.1f}%** {apellido}")
+
+def pie_countries(df):
+    # Copia segura
+    df2 = df.copy()
+
+    # Limpiar datos
+    df2 = df2[df2["pais_nacimiento"].notna() & (df2["pais_nacimiento"] != "")]
+
+    # Conteo
+    conteo = df2["pais_nacimiento"].value_counts()
+
+    # Colores personalizados
+    colores = []
+    for pais in conteo.index:
+        if pais == "Colombia":
+            colores.append("#FCD116")   # amarillo Colombia
+        else:
+            colores.append("#B0BEC5")   # gris
+
+    # Gráfico
+    fig, ax = plt.subplots()
+    # Fondo del gráfico
+    fig.patch.set_facecolor("#e8f5e9")
+    ax.set_facecolor("#e8f5e9")
+    ax.pie(
+        conteo.values,
+        labels=conteo.index,
+        autopct="%1.0f%%",
+        startangle=90,
+        colors=colores
+    )
+    ax.axis("equal")
+
+    st.pyplot(fig)
 
 #TODO: Meses de nacimiento y muerte
-#TODO: Filtrar personas por generación
 #TODO: Filtrar personas por ciudad de muerte

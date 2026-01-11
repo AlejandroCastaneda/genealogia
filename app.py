@@ -14,6 +14,4 @@ utils.generate_menu()
 df = utils.load_data()
 
 utils.birth_cities(df)
-utils.birth_countries(df)
-utils.most_common_surnames(df)
 utils.ages_at_death(df)
