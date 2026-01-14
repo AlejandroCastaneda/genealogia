@@ -69,11 +69,6 @@ def load_data():
     df = pd.read_csv("data/arbol.csv")
     return df
 
-def birth_cities(df):
-    st.subheader("Ciudades de nacimiento")
-    conteo_ciudades = df["ciudad_nacimiento"].value_counts()
-    st.bar_chart(conteo_ciudades, sort=False, color="#e8f5e9")
-
 def ages_at_death(df):
     # Parseo de fechas con formato más robusto
     df["fecha_nacimiento"] = pd.to_datetime(df["fecha_nacimiento"], errors="coerce")
@@ -325,7 +320,7 @@ def apellidos_distribution(df):
         porcentaje = (cantidad / total) * 100
         st.write(f"**{porcentaje:.1f}%** {apellido}")
 
-def pie_countries(df):
+def countries_of_birth(df):
     # Copia segura
     df2 = df.copy()
 
@@ -359,5 +354,72 @@ def pie_countries(df):
 
     st.pyplot(fig)
 
-#TODO: Meses de nacimiento y muerte
-#TODO: Filtrar personas por ciudad de muerte
+def birth_cities(df):
+    # Copia segura
+    df2 = df.copy()
+
+    # Limpiar datos
+    df2 = df2[df2["ciudad_nacimiento"].notna() & (df2["ciudad_nacimiento"] != "")]
+
+    # Conteo
+    conteo = df2["ciudad_nacimiento"].value_counts()
+
+    # Gráfico
+    fig, ax = plt.subplots()
+    # Fondo del gráfico
+    fig.patch.set_facecolor("#e8f5e9")
+    ax.set_facecolor("#e8f5e9")
+    ax.pie(
+        conteo.values,
+        labels=conteo.index,
+        autopct="%1.0f%%",
+        startangle=90,
+    )
+    ax.axis("equal")
+
+    st.pyplot(fig)
+
+def places_of_deaths(df):
+    st.subheader("Lugares de defunción")
+
+    df2 = df.copy()
+    df2.replace("", pd.NA, inplace=True)
+
+    # Eliminar registros donde ciudad_muerte sea "No aplica"
+    df2 = df2[df2["ciudad_muerte"].str.strip().ne("No aplica")]
+
+    # Selector de generación
+    places = sorted(df2["ciudad_muerte"].dropna().unique())
+    place_selec = st.selectbox(
+        "Filtrar por ciudad",
+        options=["Todas"] + places
+    )
+
+    # Aplicar filtro
+    if place_selec != "Todas":
+        df2 = df2[df2["ciudad_muerte"] == place_selec]
+
+    df2["fecha_muerte"] = pd.to_datetime(
+        df2["fecha_muerte"], errors="coerce"
+    ).dt.strftime("%d/%m/%Y")
+
+
+    # ---- Construir columnas amigables ----
+    df2["Nombre"] = (
+        df2["nombre_1"].fillna("") + " " +
+        df2["nombre_2"].fillna("") + " " +
+        df2["apellido_1"].fillna("") + " " +
+        df2["apellido_2"].fillna("")
+    ).str.replace(" +", " ", regex=True).str.strip()
+
+    # Seleccionar y renombrar columnas finales
+    salida = df2[[
+        "Nombre",
+        "fecha_muerte",
+        "id"
+    ]].rename(columns={
+        "fecha_muerte": "Fecha defunción",
+        "id": "ID"
+    })
+
+    st.dataframe(salida, width="stretch", hide_index=True)

@@ -21,4 +21,5 @@ with col1:
     utils.apellidos_distribution(df)
 
 with col2:
-    utils.pie_countries(df)
+    utils.countries_of_birth(df)
+    utils.birth_cities(df)

@@ -13,5 +13,5 @@ utils.generate_menu()
 # Cargar los datos del árbol
 df = utils.load_data()
 
-utils.birth_cities(df)
 utils.ages_at_death(df)
+utils.places_of_deaths(df)
