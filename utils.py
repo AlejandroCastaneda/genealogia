@@ -99,6 +99,7 @@ def ages_at_death(df):
 def draw_family_tree_interactive(df):
     st.title("Árbol genealógico")
     df = df.dropna(subset=["id"])
+    df = df.drop_duplicates(subset=["id", "hijo_id"], keep="first")
 
     net = Network(
         height="750px",
@@ -145,7 +146,7 @@ def draw_family_tree_interactive(df):
             if pd.notna(x)
         )
 
-        color = "#8ab4f8" if row['sexo'] == "Hombre" else "#ff9ecb"
+        color = "#6D4C41" if row['sexo'] == "Hombre" else "#66BB6A"
 
         try:
             nivel = int(row.get("generacion", 0))
@@ -296,6 +297,9 @@ def missing_data_table(df):
     st.dataframe(salida, width="stretch", hide_index=True)
 
 def apellidos_distribution(df):
+    df = df.drop_duplicates(subset=["id"], keep="first")
+
+
     # Tomar ambos apellidos
     ap1 = df["apellido_1"]
     ap2 = df["apellido_2"]
@@ -321,6 +325,8 @@ def apellidos_distribution(df):
         st.write(f"**{porcentaje:.1f}%** {apellido}")
 
 def countries_of_birth(df):
+    df = df.drop_duplicates(subset=["id"], keep="first")
+
     # Copia segura
     df2 = df.copy()
 
@@ -355,6 +361,8 @@ def countries_of_birth(df):
     st.pyplot(fig)
 
 def birth_cities(df):
+    df = df.drop_duplicates(subset=["id"], keep="first")
+    
     # Copia segura
     df2 = df.copy()
 
