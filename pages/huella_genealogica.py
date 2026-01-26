@@ -18,7 +18,7 @@ st.subheader("🧬 Huella genealógica")
 col1, col2 = st.columns([1, 2]) 
 
 with col1:
-    utils.apellidos_distribution(df)
+    utils.surname_distribution(df)
 
 with col2:
     utils.countries_of_birth(df)

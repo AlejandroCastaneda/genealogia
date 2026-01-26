@@ -3,6 +3,7 @@ import pandas as pd
 from PIL import Image
 from pyvis.network import Network
 import matplotlib.pyplot as plt
+import re
 
 def load_styles():
     hide_default_menu = """
@@ -101,6 +102,12 @@ def draw_family_tree_interactive(df):
     df = df.dropna(subset=["id"])
     df = df.drop_duplicates(subset=["id", "hijo_id"], keep="first")
 
+    # Crear contador por id
+    contador = df.groupby("id").cumcount()
+
+    # Modificar solo los duplicados
+    df["id"] = df["id"] + (contador + 1).astype(str).where(contador > 0, "")
+
     net = Network(
         height="750px",
         width="100%",
@@ -133,7 +140,6 @@ def draw_family_tree_interactive(df):
     }
     """)
 
-
     # Nodos con color simple
     for _, row in df.iterrows():
         nombre = " ".join(
@@ -153,12 +159,18 @@ def draw_family_tree_interactive(df):
         except:
             nivel = 0
 
+        def familysearch_id(id_modificado):
+            match = re.match(r"^([A-Z0-9]{4}-[A-Z0-9]{3})", id_modificado)
+            return match.group(1) if match else id_modificado
+
+        fs_id = familysearch_id(row["id"])
+
         net.add_node(
             row["id"],
             label=nombre,
             color=color,
             level=nivel,
-            title=f"<a href='https://www.familysearch.org/tree/person/details/{row['id']}' target='_blank'>Abrir ficha</a>"
+            title=f"<a href='https://www.familysearch.org/tree/person/details/{fs_id}' target='_blank'>Abrir ficha</a>"
         )
 
 
@@ -296,33 +308,51 @@ def missing_data_table(df):
     st.write(f"Total: **{len(faltantes)} personas** con al menos un dato vacío")
     st.dataframe(salida, width="stretch", hide_index=True)
 
-def apellidos_distribution(df):
-    df = df.drop_duplicates(subset=["id"], keep="first")
+def surname_distribution(df):
+    # Eliminar IDs duplicados (conserva el primero)
+    df = df.drop_duplicates(subset=["id"], keep="first").copy()
 
+    # Generación más alta encontrada
+    highest_generation = int(df["generacion"].max())
 
-    # Tomar ambos apellidos
-    ap1 = df["apellido_1"]
-    ap2 = df["apellido_2"]
+    # Total teórico de "posiciones de apellidos"
+    total_surnames = 2 * (2 ** (highest_generation + 1) - 1)
 
-    # Unir en una sola serie
-    apellidos = pd.concat([ap1, ap2])
+    # Diccionario acumulador
+    surname_weights = {}
 
-    # Limpiar: quitar NaN, vacíos y normalizar
-    apellidos = (
-        apellidos
-        .dropna()
-        .astype(str)
-        .str.strip()
-        .str.title()
-    )
+    # --- Generación 0 (ambos apellidos pesan igual) ---
+    gen0 = df[df["generacion"] == 0]
 
-    total = len(apellidos)
+    for _, row in gen0.iterrows():
+        for col in ["apellido_1", "apellido_2"]:
+            apellido = row[col]
+            if pd.notna(apellido) and apellido != "":
+                surname_weights[apellido] = (
+                    surname_weights.get(apellido, 0)
+                    + (highest_generation + 1)
+                )
 
-    conteo = apellidos.value_counts()
+    # --- Resto de generaciones (solo apellido_2) ---
+    for g in range(1, highest_generation + 1):
+        subset = df[df["generacion"] == g]
 
-    for apellido, cantidad in conteo.items():
-        porcentaje = (cantidad / total) * 100
-        st.write(f"**{porcentaje:.1f}%** {apellido}")
+        weight = (highest_generation - g) + 1
+
+        for apellido in subset["apellido_2"].dropna():
+            if apellido != "":
+                surname_weights[apellido] = (
+                    surname_weights.get(apellido, 0) + weight
+                )
+
+    # Imprimir porcentajes
+    for apellido, weight in sorted(
+        surname_weights.items(),
+        key=lambda x: x[1],
+        reverse=True
+    ):
+        porcentaje = (weight / total_surnames) * 100
+        st.write(f"{porcentaje:.1f}% {apellido}")
 
 def countries_of_birth(df):
     df = df.drop_duplicates(subset=["id"], keep="first")
@@ -400,12 +430,11 @@ def places_of_deaths(df):
     places = sorted(df2["ciudad_muerte"].dropna().unique())
     place_selec = st.selectbox(
         "Filtrar por ciudad",
-        options=["Todas"] + places
+        options= places
     )
 
     # Aplicar filtro
-    if place_selec != "Todas":
-        df2 = df2[df2["ciudad_muerte"] == place_selec]
+    df2 = df2[df2["ciudad_muerte"] == place_selec]
 
     df2["fecha_muerte"] = pd.to_datetime(
         df2["fecha_muerte"], errors="coerce"
